@@ -3,78 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rod Plus | رود بلس</title>
+    <title>Rod Plus | رود بلس الفخامة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --burgundy: #800020; --dark-bg: #0a0a0a; }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--dark-bg); color: #ffffff; overflow-x: hidden; }
+        :root { --burgundy: #800020; --burgundy-light: #a51d36; }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            background-image: radial-gradient(circle at top right, #1a050a, transparent), radial-gradient(circle at bottom left, #0a0a0a, transparent);
+            min-height: 100vh;
+        }
+
+        /* تأثير الزجاج الضبابي */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .custom-scroll { overflow-x: auto; display: flex; gap: 15px; scroll-snap-type: x mandatory; }
-        .product-card { flex: 0 0 170px; scroll-snap-align: start; }
-        #sideMenu { position: fixed; right: -100%; top: 0; width: 280px; height: 100%; background: #111; z-index: 200; transition: 0.4s; border-left: 2px solid var(--burgundy); }
+        
+        /* شريط جانبي ضبابي */
+        #sideMenu {
+            position: fixed; right: -100%; top: 0; width: 300px; height: 100%;
+            z-index: 200; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         #sideMenu.active { right: 0; }
-        .floating-contact { position: fixed; bottom: 20px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-        .contact-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; items-center: center; justify-content: center; color: white; font-size: 20px; }
+
+        /* تمرير المنتجات الأفقي */
+        .product-slider {
+            display: flex; overflow-x: auto; gap: 15px; scroll-snap-type: x mandatory; padding: 10px 20px;
+        }
+        .product-card {
+            flex: 0 0 180px; scroll-snap-align: start; transition: transform 0.3s;
+        }
+        .product-card:active { transform: scale(0.95); }
+
+        /* أزرار التواصل العائمة */
+        .float-btns { position: fixed; bottom: 30px; left: 20px; z-index: 100; display: flex; flex-direction: column; gap: 12px; }
+        .f-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; items-center: center; justify-content: center; font-size: 22px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <div id="sideMenu" class="p-6">
-        <button onclick="toggleMenu()" class="text-2xl mb-8">✕</button>
-        <nav class="space-y-6 text-lg font-bold">
-            <a href="#" class="block hover:text-[--burgundy]">القائمة الرئيسية</a>
-            <a href="#" class="block hover:text-[--burgundy]">اشتراكات</a>
-            <a href="#" class="block hover:text-[--burgundy]">تطبيقات</a>
-            <a href="#" class="block hover:text-[--burgundy]">عروض البكج</a>
+    <div id="sideMenu" class="glass p-8 shadow-2xl">
+        <button onclick="toggleMenu()" class="text-3xl mb-12 hover:text-red-500 transition">✕</button>
+        <nav class="flex flex-col gap-8 text-xl font-bold">
+            <a href="#" class="hover:text-[--burgundy] flex items-center gap-3">🏠 القائمة الرئيسية</a>
+            <a href="#" class="hover:text-[--burgundy] flex items-center gap-3">💎 اشتراكات</a>
+            <a href="#" class="hover:text-[--burgundy] flex items-center gap-3">📱 تطبيقات</a>
+            <a href="#" class="hover:text-[--burgundy] flex items-center gap-3">🎁 عروض البكج</a>
         </nav>
+        <div class="absolute bottom-10 text-zinc-500 text-sm">© 2026 Rod Plus Store</div>
     </div>
 
-    <nav class="flex items-center justify-between px-6 py-5 bg-black border-b border-zinc-800 sticky top-0 z-50">
+    <nav class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="text-2xl">☰</button>
-            <h1 class="text-xl font-black text-[--burgundy]">ROD <span class="text-white">PLUS</span></h1>
+            <button onclick="toggleMenu()" class="text-2xl p-2 bg-white/5 rounded-lg">☰</button>
+            <div class="leading-tight">
+                <span class="block text-xs font-bold text-[--burgundy]">ROD PLUS</span>
+                <span class="text-lg font-black tracking-widest">رود بلس</span>
+            </div>
         </div>
-        <div class="text-xl cursor-pointer">🛒</div>
+        <div class="bg-[--burgundy] px-3 py-1 rounded-full text-xs font-bold shadow-lg shadow-red-900/20">🛒 المتجر</div>
     </nav>
 
-    <main class="py-8">
-        <section class="mb-10">
-            <h3 class="px-6 mb-4 font-bold border-r-4 border-[--burgundy] pr-2">اشتراكات رود بلس</h3>
-            <div class="custom-scroll px-6 no-scrollbar">
-                <div class="product-card bg-zinc-900 rounded-2xl p-3 border border-zinc-800" onclick="openProduct('يوتيوب بريميوم سنة', '89')">
-                    <img src="https://via.placeholder.com/150/222" class="rounded-xl mb-2">
-                    <h4 class="text-xs font-bold mb-1">يوتيوب بريميوم - سنة</h4>
-                    <p class="text-[--burgundy] font-black">89 SAR</p>
+    <header class="pt-12 pb-6 px-6 text-center">
+        <h1 class="text-4xl font-black mb-3 bg-gradient-to-r from-white via-zinc-400 to-white bg-clip-text text-transparent italic">PREMIUM ACCESS</h1>
+        <p class="text-zinc-500 text-sm max-w-xs mx-auto">بوابتك لعالم الاشتراكات الرقمية الفاخرة، ضمان، جودة، وسرعة في التسليم.</p>
+    </header>
+
+    <section class="py-6">
+        <div class="px-6 flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold border-r-4 border-[--burgundy] pr-3">اشتراكات ترفيهية</h2>
+            <span class="text-[10px] text-zinc-500 bg-white/5 px-2 py-1 rounded">اسحب لليسار ➔</span>
+        </div>
+        
+        <div class="product-slider no-scrollbar">
+            <div class="product-card glass rounded-3xl p-3" onclick="openProduct('يوتيوب بريميوم سنة', '99', 'https://f.top4top.io/p_3126q9vpx1.png')">
+                <div class="relative overflow-hidden rounded-2xl mb-3 aspect-square">
+                    <img src="https://via.placeholder.com/300/800020/FFFFFF?text=YouTube+Premium" class="w-full h-full object-cover">
+                    <div class="absolute top-2 right-2 bg-black/50 backdrop-blur px-2 py-1 rounded-lg text-[10px]">الأكثر طلباً</div>
+                </div>
+                <h3 class="text-xs font-bold h-10 overflow-hidden line-clamp-2">يوتيوب بريميوم - سنة كاملة (حساب خاص)</h3>
+                <div class="flex justify-between items-center mt-2">
+                    <span class="text-[--burgundy] font-black">99 SAR</span>
+                    <span class="text-[10px] line-through text-zinc-600">149</span>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <div id="paymentModal" class="fixed inset-0 z-[150] bg-black/90 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-zinc-900 w-full max-w-md p-8 rounded-3xl relative border border-zinc-800">
-            <button onclick="closeModal()" class="absolute top-5 left-5 text-gray-400">✕</button>
-            <div class="text-center mb-6">
-                <h2 class="text-xl font-black text-[--burgundy]">ROD PLUS</h2>
-                <p id="modalProdName" class="text-sm mt-2 opacity-80"></p>
+            <div class="product-card glass rounded-3xl p-3" onclick="openProduct('نتفليكس شهر', '35', 'https://g.top4top.io/p_3126q9vpx2.png')">
+                <div class="relative overflow-hidden rounded-2xl mb-3 aspect-square">
+                    <img src="https://via.placeholder.com/300/222222/FFFFFF?text=Netflix" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xs font-bold h-10">نتفليكس أعلى جودة 4K - شهر كامل</h3>
+                <p class="text-[--burgundy] font-black mt-2">35 SAR</p>
             </div>
+
+            <div class="product-card glass rounded-3xl p-3" onclick="openProduct('شاهد VIP شهر', '29', 'https://h.top4top.io/p_3126q9vpx3.png')">
+                <div class="relative overflow-hidden rounded-2xl mb-3 aspect-square">
+                    <img src="https://via.placeholder.com/300/000000/FFFFFF?text=Shahid+VIP" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xs font-bold h-10">شاهد VIP رياضة ومسلسلات - شهر</h3>
+                <p class="text-[--burgundy] font-black mt-2">29 SAR</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="paymentModal" class="fixed inset-0 z-[150] bg-black/80 hidden flex-col items-center justify-center p-6 backdrop-blur-md">
+        <div class="glass w-full max-w-md p-8 rounded-[40px] relative shadow-2xl border border-white/10">
+            <button onclick="closeModal()" class="absolute top-6 left-6 text-zinc-500 hover:text-white">✕</button>
+            
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-[--burgundy] mx-auto rounded-3xl rotate-45 flex items-center justify-center shadow-xl shadow-red-900/40 mb-6">
+                    <span class="rotate-[-45deg] text-3xl font-black">RP</span>
+                </div>
+                <h2 id="modalProdName" class="text-xl font-black mb-1"></h2>
+                <p class="text-zinc-500 text-xs">يرجى إدخال بياناتك لإتمام الطلب</p>
+            </div>
+
             <div class="space-y-4">
-                <input type="text" id="amountDisplay" readonly class="w-full p-4 rounded-xl bg-black border border-zinc-800 font-bold text-center">
-                <input type="text" id="customerName" placeholder="الاسم الكامل" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-[--burgundy]">
-                <input type="tel" id="phone" placeholder="9665xxxxxxxx" class="w-full p-4 rounded-xl bg-black border border-zinc-800 outline-none focus:border-[--burgundy]">
-                <button onclick="processPayment()" id="payBtn" class="w-full bg-[--burgundy] py-4 rounded-xl font-bold hover:opacity-90 transition-all">إتمام الدفع الآمن</button>
+                <div class="relative">
+                    <input type="text" id="amountDisplay" readonly class="w-full p-4 rounded-2xl bg-white/5 border border-white/5 font-bold text-center text-xl text-[--burgundy]">
+                </div>
+                <input type="text" id="customerName" placeholder="الاسم الكامل" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-[--burgundy] transition-all text-sm">
+                <input type="tel" id="phone" placeholder="9665xxxxxxxx" class="w-full p-4 rounded-2xl bg-white/5 border border-white/10 outline-none focus:border-[--burgundy] transition-all text-sm text-left">
+                
+                <button onclick="processPayment()" id="payBtn" class="w-full bg-[--burgundy] hover:bg-[--burgundy-light] py-5 rounded-2xl font-black text-lg shadow-xl transition-all active:scale-95">إتمام الدفع الآن</button>
+                <div class="flex justify-center gap-4 opacity-30 mt-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" width="30">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" width="30">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Mada_Logo.svg" width="30">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="floating-contact">
-        <a href="#" class="contact-btn bg-green-600">💬</a>
-        <a href="#" class="contact-btn bg-black border border-zinc-700">♪</a>
+    <div class="float-btns">
+        <a href="https://wa.me/966XXXXXXXX" class="f-btn bg-green-600">💬</a>
+        <a href="#" class="f-btn glass">📸</a>
+        <a href="#" class="f-btn glass text-sm font-bold">TikTok</a>
     </div>
 
     <script>
         // إعدادات البوابة والتلغرام
-        const FIXED_EMAIL = "maxmohamedmoon@gmail.com";
         const BOT_CONFIG = { TOKEN: "8254444681:AAHYJz1CtqVTT1ovCVUOPCckj3AySLAs8UI", CHAT_ID: "591768998" };
         const CONFIG = { 
             MERCHANT_ID: "983c9669-9278-4dd1-950f-8b8fbb0a14d2", 
@@ -99,24 +174,24 @@
             const name = document.getElementById('customerName').value;
             const prodName = document.getElementById('modalProdName').innerText;
 
-            if(!phone || !name) { alert("يرجى إكمال البيانات"); return; }
+            if(!phone || !name) { alert("لطفاً، أكمل بياناتك أولاً"); return; }
 
             btn.disabled = true;
-            btn.innerText = "جاري التحويل...";
+            btn.innerHTML = `<span class="animate-pulse">جاري معالجة الطلب...</span>`;
 
-            // إرسال إشعار تليجرام - تم تعديل الرسالة لـ Rod Plus
-            const msg = `🛒 *طلب جديد من متجر Rod Plus*\n\n📦 المنتج: ${prodName}\n💰 المبلغ: ${amountVal} SAR\n👤 العميل: ${name}\n📱 الجوال: ${phone}`;
+            // إشعار تليجرام Rod Plus
+            const msg = `🚀 *طلب جديد: Rod Plus*\n\n👤 العميل: ${name}\n📱 الجوال: ${phone}\n📦 المنتج: ${prodName}\n💰 المبلغ: ${amountVal} SAR`;
             
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_CONFIG.TOKEN}/sendMessage?chat_id=${BOT_CONFIG.CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`, {
                     method: 'GET', keepalive: true 
                 });
-            } catch(e) { console.log("Telegram Error"); }
+            } catch(e) { console.error("Notify Error"); }
 
             const orderId = "ROD-" + Date.now();
-            const desc = "Order: " + prodName;
+            const desc = "Rod Plus Order: " + prodName;
 
-            // التشفير الأصلي كما هو
+            // التشفير المزدوج
             const md5Hash = md5((orderId + amountVal + "SAR" + desc + CONFIG.MERCHANT_PASSWORD).toUpperCase());
             const finalHash = await sha1(md5Hash);
 
@@ -127,9 +202,9 @@
             formData.append("order_amount", amountVal);
             formData.append("order_currency", "SAR");
             formData.append("order_description", desc);
-            formData.append("payer_first_name", name || "Rod");
+            formData.append("payer_first_name", name);
             formData.append("payer_last_name", "Customer");
-            formData.append("payer_email", FIXED_EMAIL);
+            formData.append("payer_email", "maxmohamedmoon@gmail.com");
             formData.append("payer_phone", phone);
             formData.append("payer_country", "SA");
             formData.append("payer_city", "Riyadh");
@@ -145,11 +220,11 @@
                 const response = await fetch(CONFIG.API_URL, { method: 'POST', body: formData });
                 const data = await response.json();
                 if (data.redirect_url) { window.location.href = data.redirect_url; } 
-                else { alert("خطأ: " + data.error_message); btn.disabled = false; }
-            } catch (e) { alert("فشل الاتصال بالبنك"); btn.disabled = false; }
+                else { alert("البنك: " + data.error_message); btn.disabled = false; btn.innerText = "حاول مرة أخرى"; }
+            } catch (e) { alert("خطأ في الاتصال"); btn.disabled = false; btn.innerText = "حاول مرة أخرى"; }
         }
 
-        // دوال التشفير MD5 & SHA1 (نفس منطقك تماماً)
+        // --- دوال التشفير MD5 & SHA1 ---
         function md5(string) {
             function rotateLeft(lValue, iShiftBits) { return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits)); }
             function addUnsigned(lX, lY) {
